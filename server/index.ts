@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
     res.send('Hello from the express webserver')
 })
 
-app.use('/event', EventController);
+app.use('/events', EventController);
 
 app.listen(3000, () => {
     console.log('Server is running')
