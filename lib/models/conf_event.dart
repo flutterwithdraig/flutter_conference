@@ -8,9 +8,18 @@ part 'conf_event.g.dart';
 class ConfEvent {
   String id;
   String title;
+  String image;
+  String start;
+  String end;
+  String speakers;
+
   ConfEvent({
     required this.id,
     required this.title,
+    required this.image,
+    required this.start,
+    required this.end,
+    required this.speakers,
   });
 
   static ConfEvent fromJson(Map<String, dynamic> json) =>
