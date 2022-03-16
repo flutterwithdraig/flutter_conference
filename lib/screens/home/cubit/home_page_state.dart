@@ -9,6 +9,14 @@ abstract class HomePageState extends Equatable {
 
 class HomePageInitial extends HomePageState {}
 
+class HomePageFailed extends HomePageState {
+  final String message;
+
+  const HomePageFailed(this.message);
+  @override
+  List<Object> get props => [message];
+}
+
 class HomePageLoaded extends HomePageState {
   final List<ConfEvent> events;
   const HomePageLoaded({

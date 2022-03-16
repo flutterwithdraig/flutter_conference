@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_conference/const.dart';
@@ -14,6 +15,18 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomePageCubit(context.read()),
       child: Scaffold(
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () async {
+        //     // await FirebaseAuth.instance.signInWithEmailAndPassword(
+        //     //   email: 'draig@test.com',
+        //     //   password: 'password123',
+        //     // );
+
+        //     final token = await FirebaseAuth.instance.currentUser!.getIdToken();
+        //     print(token);
+        //   },
+        //   child: const Text('login'),
+        // ),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Global Conf'),

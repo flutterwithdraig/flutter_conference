@@ -1,8 +1,14 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:global_conference/models/conf_event.dart';
 import 'package:global_conference/repositories/conference_interface.dart';
 import 'package:http/http.dart' as http;
+
+class RepoFailure implements Exception {
+  RepoFailure(this.message);
+  String message = '';
+}
 
 class ConferenceRepository implements IConfRepository {
   static const String apiHost = "http://10.0.2.2:3000";
@@ -12,8 +18,17 @@ class ConferenceRepository implements IConfRepository {
   }
 
   Future<dynamic> _get(String path) async {
-    final res = await http.get(_uri(path));
-    return jsonDecode(res.body);
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+    final res =
+        await http.get(_uri(path), headers: {"Authorization": "Token $token"});
+
+    switch (res.statusCode) {
+      case 401:
+        throw RepoFailure('Auth Failed');
+      default:
+        return jsonDecode(res.body);
+    }
   }
 
   @override

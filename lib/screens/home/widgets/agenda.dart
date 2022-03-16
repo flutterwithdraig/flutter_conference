@@ -15,6 +15,8 @@ class Agenda extends StatelessWidget {
       builder: (context, state) {
         if (state is HomePageInitial) {
           return const CircularProgressIndicator();
+        } else if (state is HomePageFailed) {
+          return Text(state.message);
         } else if (state is HomePageLoaded) {
           return Expanded(
             child: ListView.separated(
