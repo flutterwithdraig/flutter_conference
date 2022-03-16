@@ -31,6 +31,8 @@ dependencies:
   copy_with_extension: ^4.0.0
   cupertino_icons: ^1.0.2
   equatable: ^2.0.3
+  firebase_auth: ^3.3.11
+  firebase_core: ^1.13.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1

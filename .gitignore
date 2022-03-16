@@ -50,3 +50,12 @@ app.*.map.json
 server/node_modules/
 server/service_account.json
 server/dist/
+
+# firestore
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
+
+# Generate using fireflutter config
+lib/firebase_options.dart

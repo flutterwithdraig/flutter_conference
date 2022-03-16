@@ -8,6 +8,8 @@ const router = Router()
 
 router.get('/', async (req, res) => {
 
+    console.log(req.uid)
+
     const documentData = await db.collection('events').get()
     const result = documentData.docs.map((d) => ({
         id: d.id,

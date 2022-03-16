@@ -14,7 +14,11 @@ class HomePageCubit extends Cubit<HomePageState> {
   }
 
   _loadEvents() async {
-    List<ConfEvent> events = await _repo.getEvents();
-    emit(HomePageLoaded(events: events));
+    try {
+      List<ConfEvent> events = await _repo.getEvents();
+      emit(HomePageLoaded(events: events));
+    } on RepoFailure catch (e) {
+      emit(HomePageFailed(e.message));
+    }
   }
 }
