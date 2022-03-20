@@ -3,7 +3,8 @@ export {}
 declare global {
     namespace Express {
         interface Request{
-            uid: String | null
+            uid: String | null,
+            admin: boolean
         }
     }
 }
