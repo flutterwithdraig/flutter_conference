@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:global_conference/models/conf_event.dart';
+import 'package:global_conference/models/user_profile.dart';
 import 'package:global_conference/repositories/conference_interface.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,5 +42,11 @@ class ConferenceRepository implements IConfRepository {
   Future<List<ConfEvent>> getEvents() async {
     final resp = await _get("/events");
     return List<ConfEvent>.from(resp.map((d) => ConfEvent.fromJson(d)));
+  }
+
+  @override
+  Future<UserProfile> getUser(String uid) async {
+    final resp = await _get("/users/$uid");
+    return UserProfile.fromJson(resp);
   }
 }
