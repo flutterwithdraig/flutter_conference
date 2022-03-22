@@ -61,7 +61,7 @@ router.get('/:id', async (req, res) => {
     }
 
     res.json({
-        id: documentSnap.id,
+        uid: documentSnap.id,
         ...documentSnap.data()
     })
 })

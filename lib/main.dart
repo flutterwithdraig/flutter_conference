@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_conference/firebase_options.dart';
 import 'package:global_conference/repositories/conference.dart';
 import 'package:global_conference/screens/index.dart';
+import 'package:global_conference/screens/profile/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
