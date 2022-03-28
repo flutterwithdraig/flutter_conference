@@ -19,6 +19,8 @@ abstract class _$ConfEventCWProxy {
 
   ConfEvent title(String title);
 
+  ConfEvent updated(String updated);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ConfEvent(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -32,6 +34,7 @@ abstract class _$ConfEventCWProxy {
     String? speakers,
     String? start,
     String? title,
+    String? updated,
   });
 }
 
@@ -60,6 +63,9 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   ConfEvent title(String title) => this(title: title);
 
   @override
+  ConfEvent updated(String updated) => this(updated: updated);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ConfEvent(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -74,6 +80,7 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
     Object? speakers = const $CopyWithPlaceholder(),
     Object? start = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
+    Object? updated = const $CopyWithPlaceholder(),
   }) {
     return ConfEvent(
       end: end == const $CopyWithPlaceholder() || end == null
@@ -100,12 +107,16 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
           ? _value.title
           // ignore: cast_nullable_to_non_nullable
           : title as String,
+      updated: updated == const $CopyWithPlaceholder() || updated == null
+          ? _value.updated
+          // ignore: cast_nullable_to_non_nullable
+          : updated as String,
     );
   }
 }
 
 extension $ConfEventCopyWith on ConfEvent {
-  /// Returns a callable class that can be used as follows: `instanceOfclass ConfEvent.name.copyWith(...)` or like so:`instanceOfclass ConfEvent.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfclass ConfEvent implements Insertable<ConfEvent>.name.copyWith(...)` or like so:`instanceOfclass ConfEvent implements Insertable<ConfEvent>.name.copyWith.fieldName(...)`.
   _$ConfEventCWProxy get copyWith => _$ConfEventCWProxyImpl(this);
 }
 
@@ -120,6 +131,7 @@ ConfEvent _$ConfEventFromJson(Map<String, dynamic> json) => ConfEvent(
       start: json['start'] as String,
       end: json['end'] as String,
       speakers: json['speakers'] as String,
+      updated: json['updated'] as String,
     );
 
 Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
@@ -129,4 +141,5 @@ Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
       'start': instance.start,
       'end': instance.end,
       'speakers': instance.speakers,
+      'updated': instance.updated,
     };

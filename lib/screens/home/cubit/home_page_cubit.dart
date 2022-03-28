@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:global_conference/models/conf_event.dart';
@@ -7,6 +9,7 @@ part 'home_page_state.dart';
 
 class HomePageCubit extends Cubit<HomePageState> {
   final ConferenceRepository _repo;
+  StreamSubscription? _subscription;
   HomePageCubit(ConferenceRepository repo)
       : _repo = repo,
         super(HomePageInitial()) {
@@ -14,11 +17,14 @@ class HomePageCubit extends Cubit<HomePageState> {
   }
 
   _loadEvents() async {
-    try {
-      List<ConfEvent> events = await _repo.getEvents();
+    _subscription = _repo.getEvents().listen((events) {
       emit(HomePageLoaded(events: events));
-    } on RepoFailure catch (e) {
-      emit(HomePageFailed(e.message));
-    }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
   }
 }
