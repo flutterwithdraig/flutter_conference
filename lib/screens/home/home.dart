@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_conference/const.dart';
 import 'package:global_conference/screens/home/cubit/home_page_cubit.dart';
 import 'package:global_conference/screens/home/widgets/date_row.dart';
 import 'package:global_conference/screens/profile/profile.dart';
+import 'package:global_conference/widgets/network_info.dart';
 
 import 'widgets/agenda.dart';
 
@@ -35,8 +35,10 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.account_circle),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()));
               },
             )
           ],
@@ -50,6 +52,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 24),
               Text('Agenda', style: AppFonts.headline1),
               SizedBox(height: 12),
+              NetworkInfo(),
               Agenda()
             ],
           ),

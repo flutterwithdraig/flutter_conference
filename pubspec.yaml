@@ -28,8 +28,10 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cached_network_image: ^3.2.0
+  connectivity_plus: ^2.2.1
   copy_with_extension: ^4.0.0
   cupertino_icons: ^1.0.2
+  drift: ^1.5.0
   equatable: ^2.0.3
   firebase_auth: ^3.3.11
   firebase_core: ^1.13.1
@@ -38,10 +40,14 @@ dependencies:
   flutter_bloc: ^8.0.1
   http: ^0.13.4
   json_annotation: ^4.4.0
+  path: ^1.8.1
+  path_provider: ^2.0.9
+  sqlite3_flutter_libs: ^0.5.4
 
 dev_dependencies:
   build_runner: ^2.1.7
   copy_with_extension_gen: ^4.0.1
+  drift_dev: ^1.5.2
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

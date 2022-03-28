@@ -8,9 +8,10 @@ const router = Router()
 
 router.get('/', async (req, res) => {
 
-    console.log(req.uid)
-
-    const documentData = await db.collection('events').get()
+    const from = req.query.from ?? '2000-01-01T12:32:34.434324';
+    const documentData = await db.collection('events')
+    .where('updated', '>', from)
+    .get()
     const result = documentData.docs.map((d) => ({
         id: d.id,
         ...d.data()
