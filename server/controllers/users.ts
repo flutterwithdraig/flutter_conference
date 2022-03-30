@@ -1,6 +1,8 @@
 import { Router } from 'express';
+import fileUpload from 'express-fileupload';
 import { requireAdmin, requireSelf } from '../auth';
-import { admin, db } from '../firestore';
+import { admin, db, storage } from '../firestore';
+import { v4 } from 'uuid';
 
 
 const router = Router()
@@ -64,6 +66,39 @@ router.get('/:id', async (req, res) => {
         uid: documentSnap.id,
         ...documentSnap.data()
     })
+})
+
+
+router.post('/:id/image', requireSelf, async (req, res) => {
+
+    if(!req.files || Object.keys(req.files).length === 0){
+        return res.status(400).json({error: 'No file uploaded'})
+    }
+
+    const uid = req.uid;
+    if(uid === null) return res.status(400).json({error: 'No UID'})
+    const uuid = v4()
+    const path = `${uuid}.jpg`
+
+    let file = req.files.image as fileUpload.UploadedFile
+    const destination = storage.bucket().file(path);
+    destination.save(file.data, {
+        metadata: {
+            metadata: {
+                firebaseStorageDownloadTokens: uuid
+            }
+        }
+    }, async (err) => {
+        if(err) {
+            console.log(err)
+        }
+        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/global-conference.appspot.com/o/${path}?alt=media&token=${uuid}`
+        await db.collection('users').doc(uid).update({
+            imageUrl
+        });
+        return res.json({imageUrl});
+    })
+
 })
 
 export { router as UsersController}

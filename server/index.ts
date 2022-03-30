@@ -1,4 +1,5 @@
 import express from 'express'
+import fileUpload from 'express-fileupload'
 import { authMiddleWare, requireAuth } from './auth'
 import { EventController } from './controllers/event'
 import { UsersController } from './controllers/users'
@@ -6,6 +7,7 @@ import { UsersController } from './controllers/users'
 var app = express()
 
 app.use(express.json())
+app.use(fileUpload())
 
 app.use(authMiddleWare)
 

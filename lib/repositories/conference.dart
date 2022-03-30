@@ -6,6 +6,7 @@ import 'package:global_conference/models/conf_event.dart';
 import 'package:global_conference/models/user_profile.dart';
 import 'package:global_conference/repositories/conference_interface.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class RepoFailure implements Exception {
   RepoFailure(this.message);
@@ -70,5 +71,28 @@ class ConferenceRepository implements IConfRepository {
   Future<UserProfile> getUser(String uid) async {
     final resp = await _get("/users/$uid");
     return UserProfile.fromJson(resp);
+  }
+
+  @override
+  Future<String> uploadProfileImage(String uid, XFile file) async {
+    var request = http.MultipartRequest("POST", _uri("/users/$uid/image"));
+
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+    request.headers['Authorization'] = "Token $token";
+    final bytes = await file.readAsBytes();
+    final image = http.MultipartFile.fromBytes('image', bytes);
+    request.files.add(image);
+
+    var resp = await request.send();
+    var respData = await resp.stream.toBytes();
+    var result = String.fromCharCodes(respData);
+    print(result);
+    if (resp.statusCode == 200) {
+      var json = jsonDecode(result);
+      return json['imageUrl'];
+    }
+
+    return '';
   }
 }

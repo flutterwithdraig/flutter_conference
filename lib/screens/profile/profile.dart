@@ -2,8 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_conference/const.dart';
+import 'package:image_picker/image_picker.dart';
 
-import 'cubit/profile_screen_cubit.dart';
+import 'bloc/profile_screen_bloc.dart';
 import 'widgets/bottom_nav.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,10 +13,11 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileScreenCubit(context.read()),
+      create: (context) =>
+          ProfileScreenBloc(context.read())..add(ProfileScreenLoadProfile()),
       child: Scaffold(
         bottomNavigationBar: const ProfileBottomNav(),
-        body: BlocBuilder<ProfileScreenCubit, ProfileScreenState>(
+        body: BlocBuilder<ProfileScreenBloc, ProfileScreenState>(
           builder: (context, state) {
             if (state is ProfileScreenInitial) {
               return const CircularProgressIndicator();
@@ -25,9 +27,32 @@ class ProfileScreen extends StatelessWidget {
                   SliverAppBar(
                     expandedHeight: 250,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: CachedNetworkImage(
-                        imageUrl: 'https://picsum.photos/id/1074/800/500',
-                        fit: BoxFit.cover,
+                      background: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: state.userProfile.imageUrl ??
+                                'https://picsum.photos/id/1074/800/500',
+                            fit: BoxFit.cover,
+                          ),
+                          if (state is ProfileScreenEdit) ...[
+                            IconButton(
+                              onPressed: () async {
+                                final file = await ImagePicker().pickImage(
+                                  source: ImageSource.camera,
+                                );
+                                context
+                                    .read<ProfileScreenBloc>()
+                                    .add(ProfileScreenUploadProfileImage(file));
+                              },
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                            ),
+                          ]
+                        ],
                       ),
                     ),
                   ),
@@ -120,11 +145,18 @@ class ProfileNameBar extends SliverPersistentHeaderDelegate {
           maintainSize: true,
           maintainState: true,
           maintainAnimation: true,
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.edit,
-              color: AppColors.primary,
+          child: GestureDetector(
+            onTap: () {
+              context
+                  .read<ProfileScreenBloc>()
+                  .add(ProfileScreenSwitchEditMode());
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.edit,
+                color: AppColors.primary,
+              ),
             ),
           ),
         ),
