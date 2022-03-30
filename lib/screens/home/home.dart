@@ -18,10 +18,10 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         // floatingActionButton: FloatingActionButton(
         //   onPressed: () async {
-        //     // await FirebaseAuth.instance.signInWithEmailAndPassword(
-        //     //   email: 'draig@test.com',
-        //     //   password: 'password123',
-        //     // );
+        //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+        //       email: 'draig@test.com',
+        //       password: 'password123',
+        //     );
 
         //     final token = await FirebaseAuth.instance.currentUser!.getIdToken();
         //     print(token);

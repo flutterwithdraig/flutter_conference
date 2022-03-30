@@ -9,12 +9,13 @@ class UserProfile {
   final String uid;
   final String name;
   final String profile;
+  final String? imageUrl;
 
-  UserProfile({
-    required this.uid,
-    required this.name,
-    required this.profile,
-  });
+  UserProfile(
+      {required this.uid,
+      required this.name,
+      required this.profile,
+      this.imageUrl});
 
   static UserProfile fromJson(Map<String, dynamic> json) =>
       _$UserProfileFromJson(json);

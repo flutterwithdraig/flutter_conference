@@ -7,6 +7,8 @@ part of 'user_profile.dart';
 // **************************************************************************
 
 abstract class _$UserProfileCWProxy {
+  UserProfile imageUrl(String? imageUrl);
+
   UserProfile name(String name);
 
   UserProfile profile(String profile);
@@ -20,6 +22,7 @@ abstract class _$UserProfileCWProxy {
   /// UserProfile(...).copyWith(id: 12, name: "My name")
   /// ````
   UserProfile call({
+    String? imageUrl,
     String? name,
     String? profile,
     String? uid,
@@ -31,6 +34,9 @@ class _$UserProfileCWProxyImpl implements _$UserProfileCWProxy {
   final UserProfile _value;
 
   const _$UserProfileCWProxyImpl(this._value);
+
+  @override
+  UserProfile imageUrl(String? imageUrl) => this(imageUrl: imageUrl);
 
   @override
   UserProfile name(String name) => this(name: name);
@@ -50,11 +56,16 @@ class _$UserProfileCWProxyImpl implements _$UserProfileCWProxy {
   /// UserProfile(...).copyWith(id: 12, name: "My name")
   /// ````
   UserProfile call({
+    Object? imageUrl = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
     Object? profile = const $CopyWithPlaceholder(),
     Object? uid = const $CopyWithPlaceholder(),
   }) {
     return UserProfile(
+      imageUrl: imageUrl == const $CopyWithPlaceholder()
+          ? _value.imageUrl
+          // ignore: cast_nullable_to_non_nullable
+          : imageUrl as String?,
       name: name == const $CopyWithPlaceholder() || name == null
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
@@ -84,6 +95,7 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       uid: json['uid'] as String,
       name: json['name'] as String,
       profile: json['profile'] as String,
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
@@ -91,4 +103,5 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
       'uid': instance.uid,
       'name': instance.name,
       'profile': instance.profile,
+      'imageUrl': instance.imageUrl,
     };
