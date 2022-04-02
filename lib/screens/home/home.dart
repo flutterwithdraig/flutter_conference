@@ -29,6 +29,7 @@ class HomeScreen extends StatelessWidget {
         //   child: const Text('login'),
         // ),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           title: const Text('Global Conf'),
           actions: [

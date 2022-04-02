@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:global_conference/blocs/auth/auth_bloc.dart';
 import 'package:global_conference/const.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -51,7 +52,20 @@ class ProfileScreen extends StatelessWidget {
                                 size: 40,
                               ),
                             ),
-                          ]
+                          ],
+                          Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child: IconButton(
+                              icon: const Icon(Icons.logout),
+                              color: Colors.white,
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(AuthRequestLogout());
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),
