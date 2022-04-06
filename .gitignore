@@ -59,3 +59,4 @@ firestore.rules
 
 # Generate using fireflutter config
 lib/firebase_options.dart
+assets/
