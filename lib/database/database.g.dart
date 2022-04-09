@@ -15,6 +15,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
   final Value<String> end;
   final Value<String> speakers;
   final Value<String> updated;
+  final Value<String> address;
+  final Value<double> lat;
+  final Value<double> lng;
   const ConfEventsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -23,6 +26,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     this.end = const Value.absent(),
     this.speakers = const Value.absent(),
     this.updated = const Value.absent(),
+    this.address = const Value.absent(),
+    this.lat = const Value.absent(),
+    this.lng = const Value.absent(),
   });
   ConfEventsCompanion.insert({
     required String id,
@@ -32,13 +38,19 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     required String end,
     required String speakers,
     required String updated,
+    required String address,
+    required double lat,
+    required double lng,
   })  : id = Value(id),
         title = Value(title),
         image = Value(image),
         start = Value(start),
         end = Value(end),
         speakers = Value(speakers),
-        updated = Value(updated);
+        updated = Value(updated),
+        address = Value(address),
+        lat = Value(lat),
+        lng = Value(lng);
   static Insertable<ConfEvent> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -47,6 +59,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     Expression<String>? end,
     Expression<String>? speakers,
     Expression<String>? updated,
+    Expression<String>? address,
+    Expression<double>? lat,
+    Expression<double>? lng,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -56,6 +71,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       if (end != null) 'end': end,
       if (speakers != null) 'speakers': speakers,
       if (updated != null) 'updated': updated,
+      if (address != null) 'address': address,
+      if (lat != null) 'lat': lat,
+      if (lng != null) 'lng': lng,
     });
   }
 
@@ -66,7 +84,10 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       Value<String>? start,
       Value<String>? end,
       Value<String>? speakers,
-      Value<String>? updated}) {
+      Value<String>? updated,
+      Value<String>? address,
+      Value<double>? lat,
+      Value<double>? lng}) {
     return ConfEventsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -75,6 +96,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       end: end ?? this.end,
       speakers: speakers ?? this.speakers,
       updated: updated ?? this.updated,
+      address: address ?? this.address,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
     );
   }
 
@@ -102,6 +126,15 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     if (updated.present) {
       map['updated'] = Variable<String>(updated.value);
     }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (lat.present) {
+      map['lat'] = Variable<double>(lat.value);
+    }
+    if (lng.present) {
+      map['lng'] = Variable<double>(lng.value);
+    }
     return map;
   }
 
@@ -114,7 +147,10 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
           ..write('start: $start, ')
           ..write('end: $end, ')
           ..write('speakers: $speakers, ')
-          ..write('updated: $updated')
+          ..write('updated: $updated, ')
+          ..write('address: $address, ')
+          ..write('lat: $lat, ')
+          ..write('lng: $lng')
           ..write(')'))
         .toString();
   }
@@ -161,9 +197,24 @@ class $ConfEventsTable extends ConfEvents
   late final GeneratedColumn<String?> updated = GeneratedColumn<String?>(
       'updated', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _addressMeta = const VerificationMeta('address');
+  @override
+  late final GeneratedColumn<String?> address = GeneratedColumn<String?>(
+      'address', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _latMeta = const VerificationMeta('lat');
+  @override
+  late final GeneratedColumn<double?> lat = GeneratedColumn<double?>(
+      'lat', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _lngMeta = const VerificationMeta('lng');
+  @override
+  late final GeneratedColumn<double?> lng = GeneratedColumn<double?>(
+      'lng', aliasedName, false,
+      type: const RealType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, image, start, end, speakers, updated];
+      [id, title, image, start, end, speakers, updated, address, lat, lng];
   @override
   String get aliasedName => _alias ?? 'conf_events';
   @override
@@ -214,6 +265,24 @@ class $ConfEventsTable extends ConfEvents
     } else if (isInserting) {
       context.missing(_updatedMeta);
     }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    } else if (isInserting) {
+      context.missing(_addressMeta);
+    }
+    if (data.containsKey('lat')) {
+      context.handle(
+          _latMeta, lat.isAcceptableOrUnknown(data['lat']!, _latMeta));
+    } else if (isInserting) {
+      context.missing(_latMeta);
+    }
+    if (data.containsKey('lng')) {
+      context.handle(
+          _lngMeta, lng.isAcceptableOrUnknown(data['lng']!, _lngMeta));
+    } else if (isInserting) {
+      context.missing(_lngMeta);
+    }
     return context;
   }
 
@@ -237,6 +306,12 @@ class $ConfEventsTable extends ConfEvents
           .mapFromDatabaseResponse(data['${effectivePrefix}speakers'])!,
       updated: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}updated'])!,
+      address: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}address'])!,
+      lat: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}lat'])!,
+      lng: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}lng'])!,
     );
   }
 

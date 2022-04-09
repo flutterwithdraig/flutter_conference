@@ -7,11 +7,17 @@ part of 'conf_event.dart';
 // **************************************************************************
 
 abstract class _$ConfEventCWProxy {
+  ConfEvent address(String address);
+
   ConfEvent end(String end);
 
   ConfEvent id(String id);
 
   ConfEvent image(String image);
+
+  ConfEvent lat(double lat);
+
+  ConfEvent lng(double lng);
 
   ConfEvent speakers(String speakers);
 
@@ -28,9 +34,12 @@ abstract class _$ConfEventCWProxy {
   /// ConfEvent(...).copyWith(id: 12, name: "My name")
   /// ````
   ConfEvent call({
+    String? address,
     String? end,
     String? id,
     String? image,
+    double? lat,
+    double? lng,
     String? speakers,
     String? start,
     String? title,
@@ -45,6 +54,9 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   const _$ConfEventCWProxyImpl(this._value);
 
   @override
+  ConfEvent address(String address) => this(address: address);
+
+  @override
   ConfEvent end(String end) => this(end: end);
 
   @override
@@ -52,6 +64,12 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
 
   @override
   ConfEvent image(String image) => this(image: image);
+
+  @override
+  ConfEvent lat(double lat) => this(lat: lat);
+
+  @override
+  ConfEvent lng(double lng) => this(lng: lng);
 
   @override
   ConfEvent speakers(String speakers) => this(speakers: speakers);
@@ -74,15 +92,22 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   /// ConfEvent(...).copyWith(id: 12, name: "My name")
   /// ````
   ConfEvent call({
+    Object? address = const $CopyWithPlaceholder(),
     Object? end = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? image = const $CopyWithPlaceholder(),
+    Object? lat = const $CopyWithPlaceholder(),
+    Object? lng = const $CopyWithPlaceholder(),
     Object? speakers = const $CopyWithPlaceholder(),
     Object? start = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
     Object? updated = const $CopyWithPlaceholder(),
   }) {
     return ConfEvent(
+      address: address == const $CopyWithPlaceholder() || address == null
+          ? _value.address
+          // ignore: cast_nullable_to_non_nullable
+          : address as String,
       end: end == const $CopyWithPlaceholder() || end == null
           ? _value.end
           // ignore: cast_nullable_to_non_nullable
@@ -95,6 +120,14 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
           ? _value.image
           // ignore: cast_nullable_to_non_nullable
           : image as String,
+      lat: lat == const $CopyWithPlaceholder() || lat == null
+          ? _value.lat
+          // ignore: cast_nullable_to_non_nullable
+          : lat as double,
+      lng: lng == const $CopyWithPlaceholder() || lng == null
+          ? _value.lng
+          // ignore: cast_nullable_to_non_nullable
+          : lng as double,
       speakers: speakers == const $CopyWithPlaceholder() || speakers == null
           ? _value.speakers
           // ignore: cast_nullable_to_non_nullable
@@ -132,6 +165,9 @@ ConfEvent _$ConfEventFromJson(Map<String, dynamic> json) => ConfEvent(
       end: json['end'] as String,
       speakers: json['speakers'] as String,
       updated: json['updated'] as String,
+      address: json['address'] as String,
+      lat: (json['lat'] as num).toDouble(),
+      lng: (json['lng'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
@@ -142,4 +178,7 @@ Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
       'end': instance.end,
       'speakers': instance.speakers,
       'updated': instance.updated,
+      'address': instance.address,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };
