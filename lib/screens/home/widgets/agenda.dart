@@ -41,58 +41,63 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 180,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: CachedNetworkImageProvider(event.image),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: -1,
-          left: 0,
-          right: 0,
-          child: Container(
-            padding: const EdgeInsets.all(8),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/event', arguments: event.id);
+      },
+      child: Stack(
+        children: [
+          Container(
+            height: 180,
+            width: double.infinity,
             decoration: BoxDecoration(
-              color: AppColors.lightgrey,
               borderRadius: BorderRadius.circular(14),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(event.image),
+              ),
             ),
-            child: Row(children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          Positioned(
+            bottom: -1,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.lightgrey,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(event.title, style: AppFonts.headline2),
+                    Text(event.speakers, style: AppFonts.subtitle),
+                  ],
+                )
+              ]),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
                 children: [
-                  Text(event.title, style: AppFonts.headline2),
-                  Text(event.speakers, style: AppFonts.subtitle),
+                  Text(event.start),
+                  Text(event.end),
                 ],
-              )
-            ]),
-          ),
-        ),
-        Positioned(
-          top: 8,
-          right: 8,
-          child: Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                Text(event.start),
-                Text(event.end),
-              ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
