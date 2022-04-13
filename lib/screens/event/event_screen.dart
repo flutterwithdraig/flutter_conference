@@ -83,9 +83,11 @@ class EventMap extends StatelessWidget {
         final state = stateIn as EventScreenLoaded;
         final latLng = LatLng(state.event.lat, state.event.lng);
         final eventLocation = CameraPosition(target: latLng, zoom: 16);
+        final marker = (state.page as EventPageMap).marker;
 
         return GoogleMap(
           initialCameraPosition: eventLocation,
+          markers: {marker},
         );
       },
     );

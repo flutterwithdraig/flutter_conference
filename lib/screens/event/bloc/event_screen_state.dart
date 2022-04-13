@@ -44,4 +44,10 @@ class EventPageDetails extends EventPage {
   const EventPageDetails();
 }
 
-class EventPageMap extends EventPage {}
+class EventPageMap extends EventPage {
+  final Marker marker;
+
+  const EventPageMap({required this.marker});
+  @override
+  List<Object?> get props => [marker];
+}
