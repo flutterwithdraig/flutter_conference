@@ -17,3 +17,19 @@ class ProfileScreenUploadProfileImage extends ProfileScreenEvent {
   @override
   List<Object?> get props => [file];
 }
+
+class EditProfileName extends ProfileScreenEvent {
+  final String text;
+  EditProfileName(this.text);
+  @override
+  List<Object?> get props => [text];
+}
+
+class EditProfileProfile extends ProfileScreenEvent {
+  final String text;
+  EditProfileProfile(this.text);
+  @override
+  List<Object?> get props => [text];
+}
+
+class SaveProfile extends ProfileScreenEvent {}

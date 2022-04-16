@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:global_conference/database/database.dart';
@@ -51,6 +52,26 @@ class ConferenceRepository implements IConfRepository {
     }
   }
 
+  Future<dynamic> _patch(String path, Map<String, String> body) async {
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+    final res = await http.patch(
+      _uri(path),
+      headers: {
+        "Authorization": "Token $token",
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+      body: jsonEncode(body),
+    );
+
+    switch (res.statusCode) {
+      case 401:
+        throw RepoFailure('Auth Failed');
+      default:
+        return jsonDecode(res.body);
+    }
+  }
+
   @override
   Future<ConfEvent> getEvent(String eventID) async {
     final resp = await _get("/events/$eventID");
@@ -94,5 +115,18 @@ class ConferenceRepository implements IConfRepository {
     }
 
     return '';
+  }
+
+  @override
+  Future<int> saveUserProfile(UserProfile userProfile) async {
+    print(userProfile.name);
+    var resp = await _patch(
+      "/users/${userProfile.uid}",
+      {
+        "name": userProfile.name,
+        "profile": userProfile.profile,
+      },
+    );
+    return resp['code'];
   }
 }

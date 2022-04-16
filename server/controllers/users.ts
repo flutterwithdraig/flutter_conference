@@ -52,7 +52,24 @@ router.get('/', async (req, res) => {
 })
 
 router.patch('/:id', requireSelf, async (req, res) => {
-    res.send('OK')
+    console.log(req.body);
+    const name = req.body.name;
+    const profile = req.body.profile;
+
+    if(name.length < 5){
+        return res.json({code: 400});
+    }
+
+    try {
+    await db.collection('users').doc(req.params.id).set({
+        name,
+        profile
+    }, {merge: true});
+    return res.json({code: 200});
+    } catch {
+        return res.json({code: 500});
+    }
+
 })
 
 router.get('/:id', async (req, res) => {
