@@ -19,6 +19,8 @@ class ProfileScreenBloc extends Bloc<ProfileScreenEvent, ProfileScreenState> {
     on<ProfileScreenLoadProfile>(_loadProfile);
     on<ProfileScreenUploadProfileImage>(_uploadProfileImage);
     on<ProfileScreenSwitchEditMode>(_switchEditMode);
+    on<EditProfileName>(_editProfileName);
+    on<EditProfileProfile>(_editProfileProfile);
   }
 
   FutureOr<void> _loadProfile(
@@ -38,13 +40,46 @@ class ProfileScreenBloc extends Bloc<ProfileScreenEvent, ProfileScreenState> {
     emit(ProfileScreenView(profile));
   }
 
-  FutureOr<void> _switchEditMode(
-      ProfileScreenSwitchEditMode event, Emitter<ProfileScreenState> emit) {
+  Future<FutureOr<void>> _switchEditMode(ProfileScreenSwitchEditMode event,
+      Emitter<ProfileScreenState> emit) async {
     final state = this.state;
     if (state is ProfileScreenView) {
-      emit(ProfileScreenEdit(state.userProfile));
+      emit(ProfileScreenEdit(userProfile: state.userProfile));
     } else if (state is ProfileScreenEdit) {
-      emit(ProfileScreenView(state.userProfile));
+      if (state.nameValid && state.profileValid) {
+        if (state.name != state.userProfile.name ||
+            state.profile != state.userProfile.profile) {
+          UserProfile newProfile = state.userProfile.copyWith(
+            name: state.name,
+            profile: state.profile,
+          );
+
+          emit(ProfileScreenView(newProfile));
+          var res = await _repository.saveUserProfile(newProfile);
+          if (res != 200) {
+            emit(ProfileScreenView(state.userProfile));
+          }
+        } else {
+          emit(ProfileScreenView(state.userProfile));
+        }
+      }
     }
+  }
+
+  FutureOr<void> _editProfileName(
+      EditProfileName event, Emitter<ProfileScreenState> emit) {
+    if (event.text.length < 5) {
+      emit((state as ProfileScreenEdit)
+          .copyWith(name: event.text, nameValid: false));
+    } else {
+      emit((state as ProfileScreenEdit)
+          .copyWith(name: event.text, nameValid: true));
+    }
+  }
+
+  FutureOr<void> _editProfileProfile(
+      EditProfileProfile event, Emitter<ProfileScreenState> emit) {
+    emit((state as ProfileScreenEdit)
+        .copyWith(profile: event.text, profileValid: true));
   }
 }
