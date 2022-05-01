@@ -17,6 +17,8 @@ class AppDatabase extends _$AppDatabase {
 
   // ConfEvents
   Stream<List<ConfEvent>> watchConfEvents() => (select(confEvents)).watch();
+  Stream<List<ConfEvent>> watchConfEventsByDay(int day) =>
+      (select(confEvents)..where((tbl) => tbl.day.equals(day))).watch();
 
   Future<void> insertEvent(ConfEvent event) =>
       into(confEvents).insertOnConflictUpdate(event);

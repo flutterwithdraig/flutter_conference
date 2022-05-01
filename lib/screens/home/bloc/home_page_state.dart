@@ -1,4 +1,4 @@
-part of 'home_page_cubit.dart';
+part of 'home_page_bloc.dart';
 
 abstract class HomePageState extends Equatable {
   const HomePageState();
@@ -19,10 +19,12 @@ class HomePageFailed extends HomePageState {
 
 class HomePageLoaded extends HomePageState {
   final List<ConfEvent> events;
+  final int day;
   const HomePageLoaded({
     required this.events,
+    required this.day,
   });
 
   @override
-  List<Object> get props => [events];
+  List<Object> get props => [events, day];
 }

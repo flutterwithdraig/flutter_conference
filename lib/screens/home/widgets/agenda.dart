@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_conference/const.dart';
 import 'package:global_conference/models/conf_event.dart';
 
-import '../cubit/home_page_cubit.dart';
+import '../bloc/home_page_bloc.dart';
 
 class Agenda extends StatelessWidget {
   const Agenda({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomePageCubit, HomePageState>(
+    return BlocBuilder<HomePageBloc, HomePageState>(
       builder: (context, state) {
         if (state is HomePageInitial) {
           return const CircularProgressIndicator();
