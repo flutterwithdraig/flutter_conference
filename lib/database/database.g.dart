@@ -18,6 +18,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
   final Value<String> address;
   final Value<double> lat;
   final Value<double> lng;
+  final Value<int> day;
   const ConfEventsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -29,6 +30,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     this.address = const Value.absent(),
     this.lat = const Value.absent(),
     this.lng = const Value.absent(),
+    this.day = const Value.absent(),
   });
   ConfEventsCompanion.insert({
     required String id,
@@ -41,6 +43,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     required String address,
     required double lat,
     required double lng,
+    required int day,
   })  : id = Value(id),
         title = Value(title),
         image = Value(image),
@@ -50,7 +53,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
         updated = Value(updated),
         address = Value(address),
         lat = Value(lat),
-        lng = Value(lng);
+        lng = Value(lng),
+        day = Value(day);
   static Insertable<ConfEvent> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -62,6 +66,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     Expression<String>? address,
     Expression<double>? lat,
     Expression<double>? lng,
+    Expression<int>? day,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -74,6 +79,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       if (address != null) 'address': address,
       if (lat != null) 'lat': lat,
       if (lng != null) 'lng': lng,
+      if (day != null) 'day': day,
     });
   }
 
@@ -87,7 +93,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       Value<String>? updated,
       Value<String>? address,
       Value<double>? lat,
-      Value<double>? lng}) {
+      Value<double>? lng,
+      Value<int>? day}) {
     return ConfEventsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -99,6 +106,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       address: address ?? this.address,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
+      day: day ?? this.day,
     );
   }
 
@@ -135,6 +143,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     if (lng.present) {
       map['lng'] = Variable<double>(lng.value);
     }
+    if (day.present) {
+      map['day'] = Variable<int>(day.value);
+    }
     return map;
   }
 
@@ -150,7 +161,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
           ..write('updated: $updated, ')
           ..write('address: $address, ')
           ..write('lat: $lat, ')
-          ..write('lng: $lng')
+          ..write('lng: $lng, ')
+          ..write('day: $day')
           ..write(')'))
         .toString();
   }
@@ -212,9 +224,14 @@ class $ConfEventsTable extends ConfEvents
   late final GeneratedColumn<double?> lng = GeneratedColumn<double?>(
       'lng', aliasedName, false,
       type: const RealType(), requiredDuringInsert: true);
+  final VerificationMeta _dayMeta = const VerificationMeta('day');
+  @override
+  late final GeneratedColumn<int?> day = GeneratedColumn<int?>(
+      'day', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, image, start, end, speakers, updated, address, lat, lng];
+      [id, title, image, start, end, speakers, updated, address, lat, lng, day];
   @override
   String get aliasedName => _alias ?? 'conf_events';
   @override
@@ -283,6 +300,12 @@ class $ConfEventsTable extends ConfEvents
     } else if (isInserting) {
       context.missing(_lngMeta);
     }
+    if (data.containsKey('day')) {
+      context.handle(
+          _dayMeta, day.isAcceptableOrUnknown(data['day']!, _dayMeta));
+    } else if (isInserting) {
+      context.missing(_dayMeta);
+    }
     return context;
   }
 
@@ -312,6 +335,8 @@ class $ConfEventsTable extends ConfEvents
           .mapFromDatabaseResponse(data['${effectivePrefix}lat'])!,
       lng: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}lng'])!,
+      day: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}day'])!,
     );
   }
 

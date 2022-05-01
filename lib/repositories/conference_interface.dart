@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 abstract class IConfRepository {
   Future<ConfEvent> getEvent(String eventID);
   Stream<List<ConfEvent>> getEvents();
+  Stream<List<ConfEvent>> getEventsByDay(int day);
 
   Future<UserProfile> getUser(String uid);
   Future<String> uploadProfileImage(String uid, XFile file);

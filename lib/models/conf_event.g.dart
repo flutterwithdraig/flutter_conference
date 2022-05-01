@@ -9,6 +9,8 @@ part of 'conf_event.dart';
 abstract class _$ConfEventCWProxy {
   ConfEvent address(String address);
 
+  ConfEvent day(int day);
+
   ConfEvent end(String end);
 
   ConfEvent id(String id);
@@ -35,6 +37,7 @@ abstract class _$ConfEventCWProxy {
   /// ````
   ConfEvent call({
     String? address,
+    int? day,
     String? end,
     String? id,
     String? image,
@@ -55,6 +58,9 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
 
   @override
   ConfEvent address(String address) => this(address: address);
+
+  @override
+  ConfEvent day(int day) => this(day: day);
 
   @override
   ConfEvent end(String end) => this(end: end);
@@ -93,6 +99,7 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   /// ````
   ConfEvent call({
     Object? address = const $CopyWithPlaceholder(),
+    Object? day = const $CopyWithPlaceholder(),
     Object? end = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? image = const $CopyWithPlaceholder(),
@@ -108,6 +115,10 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
           ? _value.address
           // ignore: cast_nullable_to_non_nullable
           : address as String,
+      day: day == const $CopyWithPlaceholder() || day == null
+          ? _value.day
+          // ignore: cast_nullable_to_non_nullable
+          : day as int,
       end: end == const $CopyWithPlaceholder() || end == null
           ? _value.end
           // ignore: cast_nullable_to_non_nullable
@@ -168,6 +179,7 @@ ConfEvent _$ConfEventFromJson(Map<String, dynamic> json) => ConfEvent(
       address: json['address'] as String,
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
+      day: json['day'] as int,
     );
 
 Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
@@ -181,4 +193,5 @@ Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
       'address': instance.address,
       'lat': instance.lat,
       'lng': instance.lng,
+      'day': instance.day,
     };

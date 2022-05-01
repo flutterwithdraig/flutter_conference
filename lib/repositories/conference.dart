@@ -89,6 +89,11 @@ class ConferenceRepository implements IConfRepository {
   }
 
   @override
+  Stream<List<ConfEvent>> getEventsByDay(int day) {
+    return _database.watchConfEventsByDay(day);
+  }
+
+  @override
   Future<UserProfile> getUser(String uid) async {
     final resp = await _get("/users/$uid");
     return UserProfile.fromJson(resp);
@@ -108,7 +113,6 @@ class ConferenceRepository implements IConfRepository {
     var resp = await request.send();
     var respData = await resp.stream.toBytes();
     var result = String.fromCharCodes(respData);
-    print(result);
     if (resp.statusCode == 200) {
       var json = jsonDecode(result);
       return json['imageUrl'];
@@ -119,7 +123,6 @@ class ConferenceRepository implements IConfRepository {
 
   @override
   Future<int> saveUserProfile(UserProfile userProfile) async {
-    print(userProfile.name);
     var resp = await _patch(
       "/users/${userProfile.uid}",
       {

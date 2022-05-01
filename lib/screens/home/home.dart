@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:global_conference/const.dart';
-import 'package:global_conference/screens/home/cubit/home_page_cubit.dart';
+import 'package:global_conference/screens/home/bloc/home_page_bloc.dart';
 import 'package:global_conference/screens/home/widgets/date_row.dart';
 import 'package:global_conference/screens/profile/profile.dart';
 import 'package:global_conference/widgets/network_info.dart';
@@ -14,20 +14,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomePageCubit(context.read()),
+      create: (context) =>
+          HomePageBloc(context.read())..add(const LoadEventByDay(day: -1)),
       child: Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () async {
-        //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-        //       email: 'draig@test.com',
-        //       password: 'password123',
-        //     );
-
-        //     final token = await FirebaseAuth.instance.currentUser!.getIdToken();
-        //     print(token);
-        //   },
-        //   child: const Text('login'),
-        // ),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
