@@ -9,4 +9,5 @@ admin.initializeApp({
 
 const firestore = admin.firestore()
 const storage = admin.storage()
-export { firestore as db, storage, admin }
+const fbAuth = admin.auth();
+export { firestore as db, fbAuth, storage, admin }

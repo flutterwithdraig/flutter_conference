@@ -72,6 +72,26 @@ class ConferenceRepository implements IConfRepository {
     }
   }
 
+  Future<dynamic> _post(String path, Map<String, String> body) async {
+    final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+
+    final res = await http.post(
+      _uri(path),
+      headers: {
+        "Authorization": "Token $token",
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+      body: jsonEncode(body),
+    );
+
+    switch (res.statusCode) {
+      case 401:
+        throw RepoFailure('Auth Failed');
+      default:
+        return jsonDecode(res.body);
+    }
+  }
+
   @override
   Future<ConfEvent> getEvent(String eventID) async {
     final resp = await _get("/events/$eventID");
@@ -131,5 +151,11 @@ class ConferenceRepository implements IConfRepository {
       },
     );
     return resp['code'];
+  }
+
+  @override
+  Future<Map<String, dynamic>> createPaymentSheet() async {
+    final response = await _post('/stripe/payment-sheet', {});
+    return response;
   }
 }
