@@ -50,6 +50,7 @@ app.*.map.json
 server/node_modules/
 server/service_account.json
 server/dist/
+server/.env
 
 # firestore
 .firebaserc

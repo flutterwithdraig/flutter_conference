@@ -10,4 +10,6 @@ abstract class IConfRepository {
   Future<UserProfile> getUser(String uid);
   Future<String> uploadProfileImage(String uid, XFile file);
   Future<int> saveUserProfile(UserProfile userProfile);
+
+  Future<Map<String, dynamic>> createPaymentSheet();
 }

@@ -3,6 +3,9 @@ import fileUpload from 'express-fileupload'
 import { authMiddleWare, requireAuth } from './auth'
 import { EventController } from './controllers/event'
 import { UsersController } from './controllers/users'
+import env from 'dotenv';
+import { StripeController } from './controllers/stripe'
+env.config({path: './.env'});
 
 var app = express()
 
@@ -20,6 +23,7 @@ app.get('/', (req, res) => {
 
 app.use('/events', requireAuth, EventController);
 app.use('/users', requireAuth, UsersController);
+app.use('/stripe', requireAuth, StripeController)
 
 app.listen(3000, () => {
     console.log('Server is running')
