@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:global_conference/blocs/auth/auth_bloc.dart';
+import 'package:global_conference/blocs/cart/cart_bloc.dart';
 import 'package:global_conference/blocs/connectivity/connectivity_cubit.dart';
 import 'package:global_conference/database/database.dart';
 import 'package:global_conference/firebase_options.dart';
@@ -58,6 +59,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 AuthBloc(authenticationRepository: authenticationRepository),
+          ),
+          BlocProvider(
+            create: (context) => CartBloc(
+                conferenceRepository: context.read<ConferenceRepository>()),
           ),
         ],
         child: BlocListener<AuthBloc, AuthState>(

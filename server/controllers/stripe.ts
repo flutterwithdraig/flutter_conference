@@ -5,11 +5,28 @@ import { db, fbAuth } from '../firestore';
 
 const router = Router();
 
+const products = [
+{code: 'event1', price: 5500 },
+{code: 'cap1', price: 1099 },
+{code: 'tshirt1', price: 2550 },
+];
+
 router.post('/payment-sheet', async (req, res) => {
     const uid = req.uid;
     if(uid == undefined){
         return res.status(401);
     }
+    let cart = JSON.parse(req.body.cart);
+    let total = 0;
+
+    cart.forEach((item: any) => {
+        const code = item.code;
+        const qty = item.qty;
+        if(qty < 1){
+            return res.status(401);
+        }
+        total += (products.find(p => p.code == code)?.price ?? 0) * qty;
+    });
 
     const secret_key = process.env.STRIPE_SECRET_KEY;
     const stripe = new Stripe(secret_key as string, {
@@ -32,12 +49,12 @@ router.post('/payment-sheet', async (req, res) => {
         await db.collection('stripe-users').doc(uid).create({stripeid: stripeCustomerId});
     }
 
-    const ephmeralKey = await stripe.ephemeralKeys.create({
+    const ephemeralKey = await stripe.ephemeralKeys.create({
         customer: stripeCustomerId
     }, {apiVersion: '2020-08-27'});
     
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: 8700,
+        amount: total,
         currency: 'gbp',
         customer: stripeCustomerId,
         payment_method_types: ['card'],
@@ -45,7 +62,7 @@ router.post('/payment-sheet', async (req, res) => {
 
     res.json({
         paymentIntent: paymentIntent.client_secret,
-        ephmeralKey: ephmeralKey.secret,
+        ephemeralKey: ephemeralKey.secret,
         customer: stripeCustomerId,
     })
 
