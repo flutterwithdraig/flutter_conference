@@ -154,8 +154,8 @@ class ConferenceRepository implements IConfRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> createPaymentSheet() async {
-    final response = await _post('/stripe/payment-sheet', {});
+  Future<Map<String, dynamic>> createPaymentSheet(String cart) async {
+    final response = await _post('/stripe/payment-sheet', {'cart': cart});
     return response;
   }
 }

@@ -11,5 +11,5 @@ abstract class IConfRepository {
   Future<String> uploadProfileImage(String uid, XFile file);
   Future<int> saveUserProfile(UserProfile userProfile);
 
-  Future<Map<String, dynamic>> createPaymentSheet();
+  Future<Map<String, dynamic>> createPaymentSheet(String cart);
 }
