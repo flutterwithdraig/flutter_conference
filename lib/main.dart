@@ -10,7 +10,6 @@ import 'package:global_conference/firebase_options.dart';
 import 'package:global_conference/repositories/authentication.dart';
 import 'package:global_conference/repositories/conference.dart';
 import 'package:global_conference/screens/index.dart';
-import 'package:global_conference/screens/payment_test.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,8 +67,8 @@ class MyApp extends StatelessWidget {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.status == AuthStatus.authenticated) {
-              // _navKey.currentState!.pushReplacementNamed('/home');
-              _navKey.currentState!.pushReplacementNamed('/paymentTest');
+              _navKey.currentState!.pushReplacementNamed('/home');
+              // _navKey.currentState!.pushReplacementNamed('/checkout');
             } else {
               _navKey.currentState!.pushReplacementNamed('/login');
             }
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
               '/login': (context) => SignInScreen(),
               '/home': (context) => const HomeScreen(),
               '/event': (context) => const EventScreen(),
-              '/paymentTest': (context) => const PaymentTest(),
+              '/checkout': (context) => const CheckoutScreen(),
             },
             initialRoute: '/',
           ),

@@ -14,7 +14,8 @@ part 'cart_state.dart';
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc({required ConferenceRepository conferenceRepository})
       : _conferenceRepository = conferenceRepository,
-        super(const CartState(items: [], noItemsInCart: 0)) {
+        super(
+            const CartState(items: [], noItemsInCart: 0, cartTotalPrice: 0.0)) {
     on<AddItemToCart>(_addItem);
     on<RemoveItemFromCart>(_removeItem);
     on<ReduceItemQty>(_reduceQty);
@@ -23,14 +24,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   final ConferenceRepository _conferenceRepository;
 
-  int _totalItemsInList(List<CartItem> items) {
-    if (items.isEmpty) return 0;
+  List _totalItemsInList(List<CartItem> items) {
+    if (items.isEmpty) return [0, 0.0];
 
     int count = 0;
+    double total = 0.0;
     for (var i in items) {
       count += i.qty;
+      total += i.price * i.qty;
     }
-    return count;
+    return [count, total];
   }
 
   FutureOr<void> _addItem(AddItemToCart event, Emitter<CartState> emit) {
@@ -49,7 +52,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       items.add(newItem);
     }
 
-    emit(state.copyWith(items: items, noItemsInCart: _totalItemsInList(items)));
+    final totals = _totalItemsInList(items);
+    emit(state.copyWith(
+        items: items, noItemsInCart: totals[0], cartTotalPrice: totals[1]));
   }
 
   FutureOr<void> _removeItem(
@@ -61,7 +66,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     List<CartItem> items = List.from(state.items);
     items.removeAt(index);
-    emit(state.copyWith(items: items, noItemsInCart: _totalItemsInList(items)));
+    final totals = _totalItemsInList(items);
+    emit(state.copyWith(
+        items: items, noItemsInCart: totals[0], cartTotalPrice: totals[1]));
   }
 
   FutureOr<void> _reduceQty(ReduceItemQty event, Emitter<CartState> emit) {
@@ -77,7 +84,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       items.removeAt(index);
     }
 
-    emit(state.copyWith(items: items, noItemsInCart: _totalItemsInList(items)));
+    final totals = _totalItemsInList(items);
+    emit(state.copyWith(
+        items: items, noItemsInCart: totals[0], cartTotalPrice: totals[1]));
   }
 
   FutureOr<void> _startPayment(

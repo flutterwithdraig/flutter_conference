@@ -4,6 +4,7 @@ import 'package:global_conference/const.dart';
 import 'package:global_conference/screens/home/bloc/home_page_bloc.dart';
 import 'package:global_conference/screens/home/widgets/date_row.dart';
 import 'package:global_conference/screens/profile/profile.dart';
+import 'package:global_conference/widgets/cart/cart_button.dart';
 import 'package:global_conference/widgets/network_info.dart';
 
 import 'widgets/agenda.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
           centerTitle: true,
           title: const Text('Global Conf'),
           actions: [
+            const CartButton(),
             IconButton(
               icon: const Icon(Icons.account_circle),
               onPressed: () {
