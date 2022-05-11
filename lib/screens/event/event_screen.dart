@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:global_conference/const.dart';
+import 'package:global_conference/widgets/cart/add_item_button.dart';
+import 'package:global_conference/widgets/cart/cart_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'bloc/event_screen_bloc.dart';
@@ -21,6 +24,12 @@ class EventScreen extends StatelessWidget {
               return AppBar(
                 title:
                     state is EventScreenLoaded ? Text(state.event.title) : null,
+                actions: const [
+                  CartButton(),
+                  SizedBox(
+                    width: 16,
+                  )
+                ],
               );
             },
           ),
@@ -56,7 +65,13 @@ class EventScreen extends StatelessWidget {
             } else if (state is EventScreenLoaded) {
               if (state.page is EventPageDetails) {
                 return Center(
-                  child: Text('Event Screen $eventId'),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Event Screen $eventId'),
+                      AddItemToCartButton(cartItem: AppProducts.event1),
+                    ],
+                  ),
                 );
               } else if (state.page is EventPageMap) {
                 return const EventMap();
