@@ -71,13 +71,13 @@ class CheckoutScreen extends StatelessWidget {
             },
           ),
           AddItemToCartButton(
-            cartItem: AppProducts.event1,
+            cartItem: getAppProduct('event1'),
           ),
           AddItemToCartButton(
-            cartItem: AppProducts.cap1,
+            cartItem: getAppProduct('cap1'),
           ),
           AddItemToCartButton(
-            cartItem: AppProducts.tshirt1,
+            cartItem: getAppProduct('tshirt1'),
           ),
           const CheckoutButton(),
         ],
