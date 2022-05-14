@@ -28,25 +28,36 @@ class AppFonts {
   );
 }
 
-class AppProducts {
-  static const tshirt1 = CartItem(
+Map<String, CartItem> _appProducts = {
+  'tshirt1': const CartItem(
       code: 'tshirt1',
       name: 'T-shirt',
       price: 25.50,
       type: CartItemType.gift,
-      qty: 2);
-
-  static const cap1 = CartItem(
+      qty: 2),
+  'cap1': const CartItem(
     code: 'cap1',
     name: 'Baseball cap',
     price: 10.99,
     type: CartItemType.gift,
-  );
-
-  static const event1 = CartItem(
+  ),
+  'event1': const CartItem(
     code: 'event1',
-    name: 'Event 1',
+    name: 'Starting with Flutter',
     price: 55.00,
     type: CartItemType.event,
-  );
+  ),
+};
+
+CartItem getAppProduct(String key) {
+  if (_appProducts.containsKey(key)) {
+    return _appProducts[key]!;
+  } else {
+    return const CartItem(
+      code: 'error',
+      name: 'Error',
+      price: 999999999999,
+      type: CartItemType.event,
+    );
+  }
 }

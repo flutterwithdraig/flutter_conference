@@ -19,6 +19,8 @@ class ConfEvent implements Insertable<ConfEvent> {
   double lat;
   double lng;
   int day;
+  String details;
+  String purchaseCode;
 
   ConfEvent({
     required this.id,
@@ -32,6 +34,8 @@ class ConfEvent implements Insertable<ConfEvent> {
     required this.lat,
     required this.lng,
     required this.day,
+    required this.details,
+    this.purchaseCode = '',
   });
 
   static ConfEvent fromJson(Map<String, dynamic> json) =>
@@ -51,6 +55,8 @@ class ConfEvent implements Insertable<ConfEvent> {
       lat: Value(lat),
       lng: Value(lng),
       day: Value(day),
+      details: Value(details),
+      purchaseCode: Value(purchaseCode),
     ).toColumns(nullToAbsent);
   }
 }
@@ -71,4 +77,6 @@ class ConfEvents extends Table {
   RealColumn get lat => real()();
   RealColumn get lng => real()();
   IntColumn get day => integer()();
+  TextColumn get details => text()();
+  TextColumn get purchaseCode => text().withDefault(const Constant(''))();
 }

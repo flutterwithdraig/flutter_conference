@@ -11,6 +11,8 @@ abstract class _$ConfEventCWProxy {
 
   ConfEvent day(int day);
 
+  ConfEvent details(String details);
+
   ConfEvent end(String end);
 
   ConfEvent id(String id);
@@ -20,6 +22,8 @@ abstract class _$ConfEventCWProxy {
   ConfEvent lat(double lat);
 
   ConfEvent lng(double lng);
+
+  ConfEvent purchaseCode(String purchaseCode);
 
   ConfEvent speakers(String speakers);
 
@@ -38,11 +42,13 @@ abstract class _$ConfEventCWProxy {
   ConfEvent call({
     String? address,
     int? day,
+    String? details,
     String? end,
     String? id,
     String? image,
     double? lat,
     double? lng,
+    String? purchaseCode,
     String? speakers,
     String? start,
     String? title,
@@ -63,6 +69,9 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   ConfEvent day(int day) => this(day: day);
 
   @override
+  ConfEvent details(String details) => this(details: details);
+
+  @override
   ConfEvent end(String end) => this(end: end);
 
   @override
@@ -76,6 +85,10 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
 
   @override
   ConfEvent lng(double lng) => this(lng: lng);
+
+  @override
+  ConfEvent purchaseCode(String purchaseCode) =>
+      this(purchaseCode: purchaseCode);
 
   @override
   ConfEvent speakers(String speakers) => this(speakers: speakers);
@@ -100,11 +113,13 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   ConfEvent call({
     Object? address = const $CopyWithPlaceholder(),
     Object? day = const $CopyWithPlaceholder(),
+    Object? details = const $CopyWithPlaceholder(),
     Object? end = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? image = const $CopyWithPlaceholder(),
     Object? lat = const $CopyWithPlaceholder(),
     Object? lng = const $CopyWithPlaceholder(),
+    Object? purchaseCode = const $CopyWithPlaceholder(),
     Object? speakers = const $CopyWithPlaceholder(),
     Object? start = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
@@ -119,6 +134,10 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
           ? _value.day
           // ignore: cast_nullable_to_non_nullable
           : day as int,
+      details: details == const $CopyWithPlaceholder() || details == null
+          ? _value.details
+          // ignore: cast_nullable_to_non_nullable
+          : details as String,
       end: end == const $CopyWithPlaceholder() || end == null
           ? _value.end
           // ignore: cast_nullable_to_non_nullable
@@ -139,6 +158,11 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
           ? _value.lng
           // ignore: cast_nullable_to_non_nullable
           : lng as double,
+      purchaseCode:
+          purchaseCode == const $CopyWithPlaceholder() || purchaseCode == null
+              ? _value.purchaseCode
+              // ignore: cast_nullable_to_non_nullable
+              : purchaseCode as String,
       speakers: speakers == const $CopyWithPlaceholder() || speakers == null
           ? _value.speakers
           // ignore: cast_nullable_to_non_nullable
@@ -180,6 +204,8 @@ ConfEvent _$ConfEventFromJson(Map<String, dynamic> json) => ConfEvent(
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
       day: json['day'] as int,
+      details: json['details'] as String,
+      purchaseCode: json['purchaseCode'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
@@ -194,4 +220,6 @@ Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
       'lat': instance.lat,
       'lng': instance.lng,
       'day': instance.day,
+      'details': instance.details,
+      'purchaseCode': instance.purchaseCode,
     };

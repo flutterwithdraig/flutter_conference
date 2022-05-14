@@ -19,6 +19,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
   final Value<double> lat;
   final Value<double> lng;
   final Value<int> day;
+  final Value<String> details;
+  final Value<String> purchaseCode;
   const ConfEventsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -31,6 +33,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     this.lat = const Value.absent(),
     this.lng = const Value.absent(),
     this.day = const Value.absent(),
+    this.details = const Value.absent(),
+    this.purchaseCode = const Value.absent(),
   });
   ConfEventsCompanion.insert({
     required String id,
@@ -44,6 +48,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     required double lat,
     required double lng,
     required int day,
+    required String details,
+    this.purchaseCode = const Value.absent(),
   })  : id = Value(id),
         title = Value(title),
         image = Value(image),
@@ -54,7 +60,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
         address = Value(address),
         lat = Value(lat),
         lng = Value(lng),
-        day = Value(day);
+        day = Value(day),
+        details = Value(details);
   static Insertable<ConfEvent> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -67,6 +74,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     Expression<double>? lat,
     Expression<double>? lng,
     Expression<int>? day,
+    Expression<String>? details,
+    Expression<String>? purchaseCode,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -80,6 +89,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       if (lat != null) 'lat': lat,
       if (lng != null) 'lng': lng,
       if (day != null) 'day': day,
+      if (details != null) 'details': details,
+      if (purchaseCode != null) 'purchase_code': purchaseCode,
     });
   }
 
@@ -94,7 +105,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       Value<String>? address,
       Value<double>? lat,
       Value<double>? lng,
-      Value<int>? day}) {
+      Value<int>? day,
+      Value<String>? details,
+      Value<String>? purchaseCode}) {
     return ConfEventsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -107,6 +120,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
       day: day ?? this.day,
+      details: details ?? this.details,
+      purchaseCode: purchaseCode ?? this.purchaseCode,
     );
   }
 
@@ -146,6 +161,12 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     if (day.present) {
       map['day'] = Variable<int>(day.value);
     }
+    if (details.present) {
+      map['details'] = Variable<String>(details.value);
+    }
+    if (purchaseCode.present) {
+      map['purchase_code'] = Variable<String>(purchaseCode.value);
+    }
     return map;
   }
 
@@ -162,7 +183,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
           ..write('address: $address, ')
           ..write('lat: $lat, ')
           ..write('lng: $lng, ')
-          ..write('day: $day')
+          ..write('day: $day, ')
+          ..write('details: $details, ')
+          ..write('purchaseCode: $purchaseCode')
           ..write(')'))
         .toString();
   }
@@ -229,9 +252,35 @@ class $ConfEventsTable extends ConfEvents
   late final GeneratedColumn<int?> day = GeneratedColumn<int?>(
       'day', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _detailsMeta = const VerificationMeta('details');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, image, start, end, speakers, updated, address, lat, lng, day];
+  late final GeneratedColumn<String?> details = GeneratedColumn<String?>(
+      'details', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _purchaseCodeMeta =
+      const VerificationMeta('purchaseCode');
+  @override
+  late final GeneratedColumn<String?> purchaseCode = GeneratedColumn<String?>(
+      'purchase_code', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        title,
+        image,
+        start,
+        end,
+        speakers,
+        updated,
+        address,
+        lat,
+        lng,
+        day,
+        details,
+        purchaseCode
+      ];
   @override
   String get aliasedName => _alias ?? 'conf_events';
   @override
@@ -306,6 +355,18 @@ class $ConfEventsTable extends ConfEvents
     } else if (isInserting) {
       context.missing(_dayMeta);
     }
+    if (data.containsKey('details')) {
+      context.handle(_detailsMeta,
+          details.isAcceptableOrUnknown(data['details']!, _detailsMeta));
+    } else if (isInserting) {
+      context.missing(_detailsMeta);
+    }
+    if (data.containsKey('purchase_code')) {
+      context.handle(
+          _purchaseCodeMeta,
+          purchaseCode.isAcceptableOrUnknown(
+              data['purchase_code']!, _purchaseCodeMeta));
+    }
     return context;
   }
 
@@ -337,6 +398,10 @@ class $ConfEventsTable extends ConfEvents
           .mapFromDatabaseResponse(data['${effectivePrefix}lng'])!,
       day: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}day'])!,
+      details: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}details'])!,
+      purchaseCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}purchase_code'])!,
     );
   }
 
