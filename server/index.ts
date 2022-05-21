@@ -5,9 +5,12 @@ import { EventController } from './controllers/event'
 import { UsersController } from './controllers/users'
 import env from 'dotenv';
 import { StripeController } from './controllers/stripe'
+import { stripeWebhook } from './stripe-webhook'
 env.config({path: './.env'});
 
 var app = express()
+
+app.post('/webhook', express.raw({type: 'application/json'}),  stripeWebhook)
 
 app.use(express.json())
 app.use(fileUpload())
