@@ -19,6 +19,8 @@ router.post('/payment-sheet', async (req, res) => {
     let cart = JSON.parse(req.body.cart);
     let total = 0;
 
+    const items: any[] = [];
+
     cart.forEach((item: any) => {
         const code = item.code;
         const qty = item.qty;
@@ -26,6 +28,7 @@ router.post('/payment-sheet', async (req, res) => {
             return res.status(401);
         }
         total += (products.find(p => p.code == code)?.price ?? 0) * qty;
+        items.push(item);
     });
 
     const secret_key = process.env.STRIPE_SECRET_KEY;
@@ -58,6 +61,12 @@ router.post('/payment-sheet', async (req, res) => {
         currency: 'gbp',
         customer: stripeCustomerId,
         payment_method_types: ['card'],
+    })
+
+    db.collection('orders').doc(paymentIntent.id).set({
+        uid,
+        items,
+        status: 'unpaid'
     })
 
     res.json({
