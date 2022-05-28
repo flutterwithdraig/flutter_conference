@@ -82,6 +82,7 @@ class MyApp extends StatelessWidget {
               '/home': (context) => const HomeScreen(),
               '/event': (context) => const EventScreen(),
               '/checkout': (context) => const CheckoutScreen(),
+              '/livecast': (context) => const LiveCastScreen(),
             },
             initialRoute: '/',
           ),
