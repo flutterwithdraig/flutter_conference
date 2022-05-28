@@ -72,6 +72,13 @@ class EventDetails extends StatelessWidget {
                 child: const Text('Book this event'),
               ),
             ],
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: AppColors.orange),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/livecast');
+              },
+              child: const Text('Stream this event'),
+            ),
             const SizedBox(height: 15),
             Text(event.details),
           ],
