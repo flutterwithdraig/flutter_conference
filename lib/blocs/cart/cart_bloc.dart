@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:global_conference/blocs/auth/auth_bloc.dart';
 import 'package:global_conference/models/cart_item.dart';
 import 'package:global_conference/repositories/conference.dart';
 
@@ -12,8 +13,11 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc({required ConferenceRepository conferenceRepository})
-      : _conferenceRepository = conferenceRepository,
+  CartBloc({
+    required ConferenceRepository conferenceRepository,
+    required AuthBloc authBloc,
+  })  : _conferenceRepository = conferenceRepository,
+        _authBloc = authBloc,
         super(
             const CartState(items: [], noItemsInCart: 0, cartTotalPrice: 0.0)) {
     on<AddItemToCart>(_addItem);
@@ -23,6 +27,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   final ConferenceRepository _conferenceRepository;
+  final AuthBloc _authBloc;
 
   List _totalItemsInList(List<CartItem> items) {
     if (items.isEmpty) return [0, 0.0];
@@ -112,6 +117,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     try {
       await Stripe.instance.presentPaymentSheet();
+
+      for (var i = 0; i < state.items.length; i++) {
+        if (state.items[i].code.startsWith('event')) {
+          _authBloc.add(AuthAddPaidEvent(state.items[i].code));
+        }
+      }
       emit(state.copyWith(items: [], noItemsInCart: 0));
     } on StripeException catch (e) {
       print(e.error.localizedMessage);

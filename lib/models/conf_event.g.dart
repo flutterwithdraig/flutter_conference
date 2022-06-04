@@ -29,6 +29,8 @@ abstract class _$ConfEventCWProxy {
 
   ConfEvent start(String start);
 
+  ConfEvent streamedEvent(bool streamedEvent);
+
   ConfEvent title(String title);
 
   ConfEvent updated(String updated);
@@ -51,6 +53,7 @@ abstract class _$ConfEventCWProxy {
     String? purchaseCode,
     String? speakers,
     String? start,
+    bool? streamedEvent,
     String? title,
     String? updated,
   });
@@ -97,6 +100,10 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
   ConfEvent start(String start) => this(start: start);
 
   @override
+  ConfEvent streamedEvent(bool streamedEvent) =>
+      this(streamedEvent: streamedEvent);
+
+  @override
   ConfEvent title(String title) => this(title: title);
 
   @override
@@ -122,6 +129,7 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
     Object? purchaseCode = const $CopyWithPlaceholder(),
     Object? speakers = const $CopyWithPlaceholder(),
     Object? start = const $CopyWithPlaceholder(),
+    Object? streamedEvent = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
     Object? updated = const $CopyWithPlaceholder(),
   }) {
@@ -171,6 +179,11 @@ class _$ConfEventCWProxyImpl implements _$ConfEventCWProxy {
           ? _value.start
           // ignore: cast_nullable_to_non_nullable
           : start as String,
+      streamedEvent:
+          streamedEvent == const $CopyWithPlaceholder() || streamedEvent == null
+              ? _value.streamedEvent
+              // ignore: cast_nullable_to_non_nullable
+              : streamedEvent as bool,
       title: title == const $CopyWithPlaceholder() || title == null
           ? _value.title
           // ignore: cast_nullable_to_non_nullable
@@ -206,6 +219,7 @@ ConfEvent _$ConfEventFromJson(Map<String, dynamic> json) => ConfEvent(
       day: json['day'] as int,
       details: json['details'] as String,
       purchaseCode: json['purchaseCode'] as String? ?? '',
+      streamedEvent: json['streamedEvent'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
@@ -222,4 +236,5 @@ Map<String, dynamic> _$ConfEventToJson(ConfEvent instance) => <String, dynamic>{
       'day': instance.day,
       'details': instance.details,
       'purchaseCode': instance.purchaseCode,
+      'streamedEvent': instance.streamedEvent,
     };

@@ -39,11 +39,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ConferenceRepository conferenceRepository =
+        ConferenceRepository(database: db);
+
+    final AuthBloc authBloc = AuthBloc(
+        authenticationRepository: authenticationRepository,
+        conferenceRepository: conferenceRepository);
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: authenticationRepository),
         RepositoryProvider(
-          create: (context) => ConferenceRepository(database: db),
+          create: (context) => conferenceRepository,
         ),
         RepositoryProvider(
           create: (context) => db,
@@ -56,15 +63,17 @@ class MyApp extends StatelessWidget {
             create: (context) => ConnectivityCubit(),
           ),
           BlocProvider(
-            create: (context) =>
-                AuthBloc(authenticationRepository: authenticationRepository),
+            create: (context) => authBloc,
           ),
           BlocProvider(
             create: (context) => CartBloc(
-                conferenceRepository: context.read<ConferenceRepository>()),
+              conferenceRepository: context.read<ConferenceRepository>(),
+              authBloc: authBloc,
+            ),
           ),
         ],
         child: BlocListener<AuthBloc, AuthState>(
+          listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == AuthStatus.authenticated) {
               _navKey.currentState!.pushReplacementNamed('/home');

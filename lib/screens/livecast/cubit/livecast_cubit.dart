@@ -1,14 +1,28 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:global_conference/blocs/auth/auth_bloc.dart';
 import 'package:global_conference/const.dart';
+import 'package:global_conference/models/app_user.dart';
+import 'package:global_conference/models/conf_event.dart';
+import 'package:global_conference/repositories/conference.dart';
 
 part 'livecast_state.dart';
 
 class LivecastCubit extends Cubit<LivecastState> {
   late RtcEngine _engine;
+  final ConferenceRepository _conferenceRepository;
+  final AuthBloc _authBloc;
+  final ConfEvent _confEvent;
 
-  LivecastCubit() : super(LivecastInitial()) {
+  LivecastCubit({
+    required ConferenceRepository conferenceRepository,
+    required AuthBloc authBloc,
+    required ConfEvent confEvent,
+  })  : _conferenceRepository = conferenceRepository,
+        _authBloc = authBloc,
+        _confEvent = confEvent,
+        super(LivecastInitial()) {
     _init();
   }
 
@@ -23,7 +37,12 @@ class LivecastCubit extends Cubit<LivecastState> {
     ));
 
     _engine.enableVideo();
-    _engine.joinChannel(agoriaToken, 'event1', null, 0);
+
+    final AppUser user = _authBloc.state.user;
+    final token =
+        await _conferenceRepository.getLiveToken(user.uid, _confEvent.id);
+
+    _engine.joinChannel(token, _confEvent.id, null, 0);
   }
 
   @override
