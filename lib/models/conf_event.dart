@@ -21,6 +21,7 @@ class ConfEvent implements Insertable<ConfEvent> {
   int day;
   String details;
   String purchaseCode;
+  bool streamedEvent;
 
   ConfEvent({
     required this.id,
@@ -36,6 +37,7 @@ class ConfEvent implements Insertable<ConfEvent> {
     required this.day,
     required this.details,
     this.purchaseCode = '',
+    this.streamedEvent = false,
   });
 
   static ConfEvent fromJson(Map<String, dynamic> json) =>
@@ -57,6 +59,7 @@ class ConfEvent implements Insertable<ConfEvent> {
       day: Value(day),
       details: Value(details),
       purchaseCode: Value(purchaseCode),
+      streamedEvent: Value(streamedEvent),
     ).toColumns(nullToAbsent);
   }
 }
@@ -79,4 +82,6 @@ class ConfEvents extends Table {
   IntColumn get day => integer()();
   TextColumn get details => text()();
   TextColumn get purchaseCode => text().withDefault(const Constant(''))();
+  BoolColumn get streamedEvent =>
+      boolean().withDefault(const Constant(false))();
 }

@@ -17,3 +17,10 @@ class AuthUserChanged extends AuthEvent {
 }
 
 class AuthRequestLogout extends AuthEvent {}
+
+class AuthAddPaidEvent extends AuthEvent {
+  final String eventCode;
+  const AuthAddPaidEvent(this.eventCode);
+  @override
+  List<Object> get props => [eventCode];
+}

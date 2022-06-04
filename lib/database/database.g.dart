@@ -21,6 +21,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
   final Value<int> day;
   final Value<String> details;
   final Value<String> purchaseCode;
+  final Value<bool> streamedEvent;
   const ConfEventsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -35,6 +36,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     this.day = const Value.absent(),
     this.details = const Value.absent(),
     this.purchaseCode = const Value.absent(),
+    this.streamedEvent = const Value.absent(),
   });
   ConfEventsCompanion.insert({
     required String id,
@@ -50,6 +52,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     required int day,
     required String details,
     this.purchaseCode = const Value.absent(),
+    this.streamedEvent = const Value.absent(),
   })  : id = Value(id),
         title = Value(title),
         image = Value(image),
@@ -76,6 +79,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     Expression<int>? day,
     Expression<String>? details,
     Expression<String>? purchaseCode,
+    Expression<bool>? streamedEvent,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -91,6 +95,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       if (day != null) 'day': day,
       if (details != null) 'details': details,
       if (purchaseCode != null) 'purchase_code': purchaseCode,
+      if (streamedEvent != null) 'streamed_event': streamedEvent,
     });
   }
 
@@ -107,7 +112,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       Value<double>? lng,
       Value<int>? day,
       Value<String>? details,
-      Value<String>? purchaseCode}) {
+      Value<String>? purchaseCode,
+      Value<bool>? streamedEvent}) {
     return ConfEventsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -122,6 +128,7 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
       day: day ?? this.day,
       details: details ?? this.details,
       purchaseCode: purchaseCode ?? this.purchaseCode,
+      streamedEvent: streamedEvent ?? this.streamedEvent,
     );
   }
 
@@ -167,6 +174,9 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
     if (purchaseCode.present) {
       map['purchase_code'] = Variable<String>(purchaseCode.value);
     }
+    if (streamedEvent.present) {
+      map['streamed_event'] = Variable<bool>(streamedEvent.value);
+    }
     return map;
   }
 
@@ -185,7 +195,8 @@ class ConfEventsCompanion extends UpdateCompanion<ConfEvent> {
           ..write('lng: $lng, ')
           ..write('day: $day, ')
           ..write('details: $details, ')
-          ..write('purchaseCode: $purchaseCode')
+          ..write('purchaseCode: $purchaseCode, ')
+          ..write('streamedEvent: $streamedEvent')
           ..write(')'))
         .toString();
   }
@@ -265,6 +276,15 @@ class $ConfEventsTable extends ConfEvents
       type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
+  final VerificationMeta _streamedEventMeta =
+      const VerificationMeta('streamedEvent');
+  @override
+  late final GeneratedColumn<bool?> streamedEvent = GeneratedColumn<bool?>(
+      'streamed_event', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (streamed_event IN (0, 1))',
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -279,7 +299,8 @@ class $ConfEventsTable extends ConfEvents
         lng,
         day,
         details,
-        purchaseCode
+        purchaseCode,
+        streamedEvent
       ];
   @override
   String get aliasedName => _alias ?? 'conf_events';
@@ -367,6 +388,12 @@ class $ConfEventsTable extends ConfEvents
           purchaseCode.isAcceptableOrUnknown(
               data['purchase_code']!, _purchaseCodeMeta));
     }
+    if (data.containsKey('streamed_event')) {
+      context.handle(
+          _streamedEventMeta,
+          streamedEvent.isAcceptableOrUnknown(
+              data['streamed_event']!, _streamedEventMeta));
+    }
     return context;
   }
 
@@ -402,6 +429,8 @@ class $ConfEventsTable extends ConfEvents
           .mapFromDatabaseResponse(data['${effectivePrefix}details'])!,
       purchaseCode: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}purchase_code'])!,
+      streamedEvent: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}streamed_event'])!,
     );
   }
 

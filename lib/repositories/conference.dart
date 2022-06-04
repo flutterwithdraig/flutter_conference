@@ -158,4 +158,16 @@ class ConferenceRepository implements IConfRepository {
     final response = await _post('/stripe/payment-sheet', {'cart': cart});
     return response;
   }
+
+  @override
+  Future<List<String>> getPaidEvents(String uid) async {
+    final resp = await _get("/users/$uid/paidevents");
+    return List<String>.from(resp['events']);
+  }
+
+  @override
+  Future<String> getLiveToken(String uid, String eventId) async {
+    final resp = await _get("/users/$uid/livetoken/$eventId");
+    return resp['token'] as String;
+  }
 }
