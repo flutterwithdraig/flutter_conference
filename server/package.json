@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\""
+    "start": "node dist/index.js",
+    "serve": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
+    "clean": "rimraf dist",
+    "build": "tsc -P ./tsconfig.json",
+    "deploy": "gcloud app deploy",
+    "build-and-deploy": "run-s clean build deploy"
   },
   "author": "",
   "license": "ISC",
@@ -12,7 +17,10 @@
     "@types/express-fileupload": "^1.2.2",
     "@types/uuid": "^8.3.4",
     "concurrently": "^7.0.0",
+    "copyfile": "^0.1.2",
     "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "typescript": "^4.6.2"
   },
   "dependencies": {
