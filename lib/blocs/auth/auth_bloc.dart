@@ -15,9 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required ConferenceRepository conferenceRepository,
   })  : _authenticationRepository = authenticationRepository,
         _conferenceRepository = conferenceRepository,
-        super(authenticationRepository.currentUser.isNotEmpty
-            ? AuthState.authenticated(authenticationRepository.currentUser)
-            : const AuthState.unauthenticated()) {
+        super(const AuthState.unknown()) {
     on<AuthUserChanged>(_onUserChanged);
     on<AuthRequestLogout>(_logout);
     on<AuthAddPaidEvent>(_addPaidEvent);

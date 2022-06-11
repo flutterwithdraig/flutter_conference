@@ -77,7 +77,6 @@ class MyApp extends StatelessWidget {
           listener: (context, state) {
             if (state.status == AuthStatus.authenticated) {
               _navKey.currentState!.pushReplacementNamed('/home');
-              // _navKey.currentState!.pushReplacementNamed('/checkout');
             } else {
               _navKey.currentState!.pushReplacementNamed('/login');
             }

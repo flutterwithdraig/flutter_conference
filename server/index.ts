@@ -28,6 +28,8 @@ app.use('/events', requireAuth, EventController);
 app.use('/users', requireAuth, UsersController);
 app.use('/stripe', requireAuth, StripeController)
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
     console.log('Server is running')
 })

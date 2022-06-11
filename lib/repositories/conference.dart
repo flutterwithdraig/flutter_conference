@@ -15,7 +15,8 @@ class RepoFailure implements Exception {
 }
 
 class ConferenceRepository implements IConfRepository {
-  static const String apiHost = "http://10.0.2.2:3000";
+  // static const String apiHost = "http://10.0.2.2:3000";
+  static const String apiHost = "https://global-conference.ew.r.appspot.com";
   final AppDatabase _database;
 
   ConferenceRepository({required AppDatabase database}) : _database = database {
